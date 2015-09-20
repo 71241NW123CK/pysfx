@@ -54,6 +54,7 @@ def write_wav_from_sample_sequence_list(output_filename, sample_sequence_list, d
 			packed_sample_list.append(packed_sample)
 	sample_string = ''.join(packed_sample_list)
 	f.writeframes(sample_string)
+	f.close()
 
 def read_wav_norm_sample_sequences(input_filename):
 	f = wave.open(input_filename, 'r')
@@ -61,6 +62,7 @@ def read_wav_norm_sample_sequences(input_filename):
 	packed_sample_list = f.readframes(channel_count * samples_per_channel)
 	interleaved_norm_samples = struct.unpack_from("%dh" % samples_per_channel * channel_count, packed_sample_list)
 	return [interleaved_norm_samples[i::channel_count] for i in range(channel_count)]
+	f.close()
 
 def pretty_print_wav_sample_sequences(input_filename, half_width):
 	norm_sample_sequence_list = read_wav_norm_sample_sequences(input_filename)
